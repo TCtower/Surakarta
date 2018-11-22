@@ -1,0 +1,94 @@
+extends layout
+
+block head
+    +title("Home")
+    style.
+        .container{
+            width: 65%;
+        }
+
+block content
+    +SignInbar()
+    .container
+        .row(style='margin-top:20px')
+            .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3.div1
+                button#join.btn.btn-sm.btn-primary.btn-block.resize(type='button', onclick="join();", value="funny") Join Game
+                button#cancel.btn.btn-sm.btn-danger.btn-block.resize(type='button', onclick="cancel();", value="funny", disabled=true) Cancel
+                button#confirm.btn.btn-sm.btn-success.btn-block.resize(type='button', onclick="confirm();", value="funny", disabled    =true) Confirm
+
+                h5(style="margin-top: 10px")
+                    big#Match Match Info
+                table.table.table-sm.text-center
+                    tr
+                        th Username
+                        th Status
+                    tr
+                    tr
+                        td
+                            medium#user Waiting...
+                        td
+                            medium#usercon NO
+                    tr
+                    tr
+                        td
+                            medium#oppo Empty
+                        td
+                            medium#oppocon NO
+                    tr
+
+    script.
+        var socket = io.connect('/');
+        var username, Time;
+
+        socket.on('news', function (data) {
+            console.log(data.username);
+            username = data.username;
+            $('#user').html(username);
+            console.log(username);
+        });
+        socket.on('oppoconfirm', function (data) {
+            $('#oppocon').html("YES");
+        });
+        socket.on('oppo_discon', function (data) {
+            alert("Your opponent disconnected!");
+            window.location.href = "/profile";
+        });
+
+        socket.on('match', function (data) {
+            $('#join').attr("disabled", true);
+            $('#confirm').attr("disabled", false);
+            $('#cancel').attr("disabled", true);
+            $('#oppo').html(data.opponame);
+        });
+        function changeTime() {
+            Time--;
+            if (Time <= 0) window.location.href = "/game";
+            else {
+                $('#Match').text("Start in " + Time + "s..");
+                setTimeout(changeTime, 1000);
+            }
+        }
+        socket.on('start', function(data){
+            Time = 3;
+            $('#Match').text("Start in 3s..");
+            setTimeout(changeTime, 1000);
+        });
+        function join(){
+            $('#join').attr("disabled", true);
+            $('#confirm').attr("disabled", true);
+            $('#cancel').attr("disabled", false);
+            $('#oppo').html("Waiting...");
+            socket.emit('search', {username: username});
+        }
+        function confirm(){
+            $('#confirm').attr("disabled", true);
+            $('#usercon').html("YES");
+            socket.emit('confirm', {username: username});
+        }
+        function cancel(){
+            $('#join').attr("disabled", false);
+            $('#confirm').attr("disabled", true);
+            $('#cancel').attr("disabled", true);
+            $('#oppo').html("None");
+            socket.emit('cancelSearch', {username: username});
+        }

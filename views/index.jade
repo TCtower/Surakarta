@@ -1,0 +1,51 @@
+extends layout
+
+block head
+    +title("Sign in")
+    style.
+
+        .alert{
+            display: none;
+        }
+        .container{
+            width: 65%;
+        }
+
+block content
+    .container
+        .row(style='margin-top:20px')
+            .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3.div1
+                form(role='form', action="/", method="post", onsubmit="return toVaild()")
+                    fieldset
+                        h2 Sign In
+                        hr.colorgraph
+                        div.alert.alert-danger
+                            button.close(type='button', onclick="dismiss('.alert');") ×
+                            strong#msg= error
+                        .form-group
+                            input#email.form-control.input-lg(type='text', name='username', placeholder='Username')
+                        .form-group
+                            input#password.form-control.input-lg(type='password', name='password', placeholder='Password')
+                        hr.colorgraph
+                        .row
+                            .col-xs-6.col-sm-6.col-md-6
+                                input.btn.btn-sm.btn-success.btn-block.resize(type='submit', value='Sign In')
+                            .col-xs-6.col-sm-6.col-md-6
+                                a.btn.btn-sm.btn-primary.btn-block.resize(href='register') Register
+                        .row
+                            span.button-checkbox(style="margin: 0 auto 0 auto;")
+                                a.btn.btn-link.pull-right(href='') Forgot Password?
+    script.
+
+        socket = io('/');
+
+        function toVarlid(){
+            if ($("#email").val() == 0)
+            return true;
+        }
+        function dismiss(x) {
+            $(x)[0].style.display = "none";
+        }
+        $(document).ready(function () {
+            if ($('#msg').text() != "") $('.alert')[0].style.display = "block";
+        });

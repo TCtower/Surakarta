@@ -1,0 +1,81 @@
+extends layout
+
+block head
+    +title("Career")
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+    style.
+        .container{
+            width: 80%;
+        }
+
+block content
+    +SignInbar()
+    .container
+        .row(style='margin-top:20px')
+            .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3.div1
+
+                h5(style="margin-top: 10px")
+                    big#Match Game Career
+                h5
+                    medium user &nbsp;
+                    small= username
+                table.table.table-sm.text-center
+                    tr
+                        th Total
+                        th Wining
+                        th Win%
+                    tr
+                    tr
+                        td
+                            medium#tot= tot
+                        td
+                            medium#win= win
+                        td
+                            medium#rate .
+                    tr
+                #chart_div
+                small Gender (1 - Male, 0 - Female)
+
+    script.
+        var locations = [];
+        var socket = io.connect('/');
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+
+
+        function drawBarColors() {
+            var data = google.visualization.arrayToDataTable(locations);
+
+            var options = {
+                title: 'Wining Player Top 5',
+                chartArea: {width: '50%'},
+                colors: ['#b0120a', '#ffab91'],
+                hAxis: {
+                    title: 'Wining Games',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Username'
+                }
+            };
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+        $(document).ready(function () {
+            var tot = parseFloat($('#tot').text());
+            var win = parseFloat($('#win').text());
+            if (tot == 0) $('#rate').text("NA");
+            else $('#rate').text(((win / tot) * 100).toFixed(2) + "%");
+            socket.emit("getSort");
+        });
+        socket.on('Sort', function (data) {
+            locations.push(['Username', 'gender', 'Winning Games'])
+            for (var i = 0; i <= 4; i++){
+                if (data.Sort[i].gender == "Male") locations.push([data.Sort[i].fullname, 1, data.Sort[i].win]);
+                else locations.push([data.Sort[i].fullname, 0, data.Sort[i].win]);
+            }
+
+            google.charts.setOnLoadCallback(drawBarColors);
+            console.log(locations);
+        });
+
+

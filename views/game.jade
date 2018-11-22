@@ -1,0 +1,25 @@
+extends layout
+
+block head
+    +title(Surakarta)
+    link(rel='stylesheet', type='text/css', href='/stylesheets/Q1.css')
+    script(type='text/javascript', defer="defer", src='/javascripts/Q1.js')
+    style.
+        #gameBoard{
+
+            margin-top: 30px;
+        }
+
+
+block content
+    .Center
+        img(src='/images/title.png', style="margin-top: 10px;")
+        #readMe
+
+        #gameBoard(style='display: block')
+            canvas#board(width='460', height='460')
+            #chessBoard(style='z-index: 100')
+            button.btn.btn-sm.btn-success.btn-block.resize(onclick="giveup()") Stop
+
+
+

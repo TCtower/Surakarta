@@ -1,0 +1,83 @@
+mixin title(x)
+    title= x
+
+mixin SignInbar()
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        button.navbar-toggler(disabled = "disabled", type='button', data-toggle='collapse', data-target='#navbarTogglerDemo01', aria-controls='navbarTogglerDemo01', aria-expanded='false', aria-label='Toggle navigation')
+            | Please Enlarge Window
+        #navbarTogglerDemo01.collapse.navbar-collapse
+            a.navbar-brand(href='#') Surakarta
+            ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+                li.nav-item
+                    a.nav-link(href='/profile')
+                        i.ma.fa.fa-home
+                        | Home
+                li.nav-item
+                    a.nav-link(href='/Career')
+                        i.ma.fa.fa-trophy
+                        | Career
+
+            form.form-inline.my-2.my-lg-0
+                ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+                    li.nav-item
+                        a.nav-link(href='#')
+                            i.ma.fa.fa-user
+                            | Account
+                    li.nav-item
+                        a.nav-link(href='/signout')
+                            i.ma.fa.fa-sign-out
+                            | Sign Out
+html
+    head
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+        script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js" integrity="sha256-WPeFPWD3PZQUDrpFnDM1N2KadNVwCfNS4cCZ78b76T8=" crossorigin="anonymous")
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+
+        style.
+            body {
+                background-size: cover;
+                background-image: url('https://orig00.deviantart.net/424a/f/2016/027/e/2/wallpaper_geometric_color_22_2k_uhd_by_airworldking-d9pj983.png');
+            }
+
+            .navbar {
+                border-radius: 10px;
+                width: 80%;
+                text-align: center;
+                margin: 10px auto 0px auto;
+            }
+
+            .ma {
+                margin-right: 5px;
+            }
+
+            .div1 {
+                background-color: whitesmoke;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 70px;
+                padding: 3% 5% 2% 5%;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 25px;
+
+            }
+            .colorgraph {
+                height: 5px;
+                border-top: 0;
+                background: #c4e17f;
+                border-radius: 5px;
+                background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+                background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+                background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+                background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            }
+
+        block head
+
+    body
+
+        block content

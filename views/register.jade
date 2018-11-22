@@ -1,0 +1,90 @@
+
+extends layout
+
+block head
+    +title("Register")
+    style.
+        .div1 {
+            margin-top: 20px;
+            padding: 1% 5% 2% 5%;
+        }
+        .div2{
+            text-align: left;
+            width: 50%;
+            margin-bottom: 0.25rem;
+        }
+        .container{
+            width: 100%;
+        }
+        .btnwid {
+            width: 80%;
+            margin-left: 20px;
+        }
+        .alert {
+            display: none;
+        }
+
+block content
+    .container
+        .row(style='margin-top:20px')
+            .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3.div1
+                form(role='form',onsubmit="return check()",action="/register",method="post")
+                    fieldset
+                        h2 Register
+                        hr.colorgraph
+                        div.alert.alert-danger
+                            button.close(type='button', onclick="dismiss('.alert');") ×
+                            strong#msg= error
+                        .row
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Username
+                                input#user.form-control.btnwid(type='text', name='username', placeholder='Enter your username', required='required')
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Email
+                                input#email.form-control.btnwid(type='email', name='email', placeholder='Enter your Email', required='required')
+                        .row
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Password
+                                input#password.form-control.btnwid(type='password', name='password', placeholder='Choose a password', required='required')
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Full Name
+                                input#fullname.form-control.btnwid(type='text', name='fullname', placeholder='Enter your full name', required='required')
+
+                        .row
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Password [Again]
+                                input#confirm.form-control.btnwid(type='password', name='confirm', placeholder='Confirm your password', required='required')
+                            .form-group.div2.input-group-sm
+                                label.small.btnwid Gender
+                                select#gender(name='gender').form-control.btnwid
+                                    option Male
+                                    option Female
+                        .form-group.input-group-sm(style="text-align: left;")
+                            label.small Location [Auto detect]
+                            input#location.form-control(readonly="readonly", type='text', name='location', placeholder='Enter your location', value="Unkown", required='required')
+
+                        hr.colorgraph
+                        .row
+                            .col-xs-6.col-sm-6.col-md-6
+                                button.btn.btn-sm.btn-success.btn-block.resize Register
+                            .col-xs-6.col-sm-6.col-md-6
+                                a.btn.btn-sm.btn-primary.btn-block.resize(href='/') Cancel
+
+    script.
+        $.getJSON('//freegeoip.net/json/?callback=?', function (data) {
+            console.log(JSON.stringify(data, null, 2));
+            $("#location").val(data.country_code)
+        });
+        function dismiss(x) {
+            $(x)[0].style.display = "none";
+        }
+        $(document).ready(function () {
+            if ($('#msg').text() != "") $('.alert')[0].style.display = "block";
+        });
+        function check() {
+            if ($('#confirm').val() != $('#password').val()){
+                $(".alert")[0].style.display = "block";
+                $('#msg').text("The password cannot confirm! Please try again!");
+                return false;
+            }else return true;
+        }
